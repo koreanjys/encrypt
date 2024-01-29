@@ -13,7 +13,7 @@ async def main() -> dict:
 
 @app.post("/encrypt/hash")
 async def hashing(body: Data) -> dict:
-    hashed_data = encrypt(Data.algorithm, Data.text, Data.salt)
+    hashed_data = await encrypt(algorithm=body.algorithm, data=body.text, salt=body.salt)
     if hashed_data:
         return {
             "header": {
@@ -22,7 +22,7 @@ async def hashing(body: Data) -> dict:
                 "errorMessage": ""
             },
             "encrypt": {
-                "algorithm": f"{Data.algorithm}",
+                "algorithm": f"{body.algorithm}",
                 "encData": f"{hashed_data}"
             }
         }
@@ -34,7 +34,7 @@ async def hashing(body: Data) -> dict:
                 "errorMessage": "Failed encrypt"
             },
             "encrypt": {
-                "algorithm": f"{Data.algorithm}",
+                "algorithm": f"{body.algorithm}",
                 "encData": None
             }
         }
